@@ -23,15 +23,15 @@ jobs:
 
     # 3️⃣ Restore dependencies
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore WebAPIDemo_withSonarQube.sln
 
     # 4️⃣ Build project
     - name: Build
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build WebAPIDemo_withSonarQube.sln --no-restore --configuration Release
 
-    # 5️⃣ Run tests (if test project exists)
+    # 5️⃣ Run tests (optional)
     - name: Run tests
-      run: dotnet test --no-build --configuration Release --verbosity normal
+      run: dotnet test WebAPIDemo_withSonarQube.sln --no-build --configuration Release --verbosity normal
 
     # 6️⃣ Run SonarQube scan
     - name: SonarQube Scan
@@ -50,6 +50,7 @@ jobs:
       with:
         sonar_host_url: ${{ secrets.SONAR_HOST_URL }}
         sonar_token: ${{ secrets.SONAR_TOKEN }}
+
 
     # 8️⃣ Conditional Deployment (only if Quality Gate passes)
     #- name: Deploy to Azure Web App
