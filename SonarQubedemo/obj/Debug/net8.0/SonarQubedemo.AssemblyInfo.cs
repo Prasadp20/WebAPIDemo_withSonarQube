@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SonarQubedemo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0ecae1c1114cf2305fb81b85b03ceeb85ab81237")]
 [assembly: System.Reflection.AssemblyProductAttribute("SonarQubedemo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SonarQubedemo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

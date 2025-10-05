@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\SonarQubedemo"
   ],
+  "SelectedNode": "\\SonarQubedemo\\WeatherForecast.cs",
   "PreviewInSolutionExplorer": false
 }
