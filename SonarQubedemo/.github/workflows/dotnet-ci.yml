@@ -40,7 +40,7 @@ jobs:
         args: >
           -Dsonar.projectKey=MyAspNetCoreAPI
           -Dsonar.organization=my-org
-          -Dsonar.host.url=${{ http://localhost:9000/ }}
+          -Dsonar.host.url=${{ http://localhost:9000 }}
           -Dsonar.login=${{ sqp_128d7fd78218f9d66ecdbf6a737afb28cea4dd26 }}
 
     # 7️⃣ SonarQube Quality Gate check
@@ -48,8 +48,9 @@ jobs:
       id: qualitygate
       uses: sonarsource/sonarqube-quality-gate-action@v1
       with:
-        sonar_host_url: ${{ http://localhost:9000/ }}
+        sonar_host_url: ${{ http://localhost:9000 }}
         sonar_token: ${{ sqp_128d7fd78218f9d66ecdbf6a737afb28cea4dd26 }}
+
 
 
     # 8️⃣ Conditional Deployment (only if Quality Gate passes)
