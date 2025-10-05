@@ -1,0 +1,52 @@
+name: ASP.NET Core CI/CD with SonarQube
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1️⃣ Checkout source code
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 2️⃣ Setup .NET SDK
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    # 3️⃣ Restore dependencies
+    - name: Restore dependencies
+      run: dotnet restore SonarQubedemo.sln
+
+    # 4️⃣ Build project
+    - name: Build
+      run: dotnet build SonarQubedemo.sln --no-restore --configuration Release
+
+    # 5️⃣ Run tests (optional)
+    - name: Run tests
+      run: dotnet test SonarQubedemo.sln --no-build --configuration Release --verbosity normal
+
+    # 6️⃣ Run SonarQube scan
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@v2
+      with:
+        args: >
+          -Dsonar.projectKey=MyAspNetCoreAPI
+          -Dsonar.organization=my-org
+          -Dsonar.host.url=${{ http://localhost:9000/ }}
+          -Dsonar.login=${{ sqp_128d7fd78218f9d66ecdbf6a737afb28cea4dd26 }}
+
+    # 7️⃣ SonarQube Quality Gate check
+    - name: SonarQube Quality Gate
+      id: qualitygate
+      uses: sonarsource/sonarqube-quality-gate-action@v1
+      with:
+        sonar_host_url: ${{ http://localhost:9000/ }}
+        sonar_token: ${{ sqp_128d7fd78218f9d66ecdbf6a737afb28cea4dd26 }}
