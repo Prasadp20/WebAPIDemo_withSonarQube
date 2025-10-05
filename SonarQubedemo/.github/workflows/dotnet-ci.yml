@@ -23,15 +23,15 @@ jobs:
 
     # 3️⃣ Restore dependencies
     - name: Restore dependencies
-      run: dotnet restore WebAPIDemo_withSonarQube.sln
+      run: dotnet restore SonarQubedemo.sln
 
     # 4️⃣ Build project
     - name: Build
-      run: dotnet build WebAPIDemo_withSonarQube.sln --no-restore --configuration Release
+      run: dotnet build SonarQubedemo.sln --no-restore --configuration Release
 
     # 5️⃣ Run tests (optional)
     - name: Run tests
-      run: dotnet test WebAPIDemo_withSonarQube.sln --no-build --configuration Release --verbosity normal
+      run: dotnet test SonarQubedemo.sln --no-build --configuration Release --verbosity normal
 
     # 6️⃣ Run SonarQube scan
     - name: SonarQube Scan
