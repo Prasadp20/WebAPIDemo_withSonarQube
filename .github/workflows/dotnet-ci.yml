@@ -1,0 +1,72 @@
+ 
+name: ASP.NET Core CI/CD
+
+# Step 1: When the workflow should run
+on: 
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Step 2: Define jobs
+jobs: 
+  build: 
+    runs-on: ubuntu-latest  # Virtual machine environment
+
+    steps:
+    # Step 3: Checkout source code
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Step 4: Setup .Net SDK
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    # Step 5: Restore dependencies
+    - name: Restore dependencies
+      run: dotnet Restore
+
+    # Step 6: Build Projects
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+
+    # Step 7: Run test (if you have test project)
+
+    # Step 8: Publish project (create deployable files)
+    - name: Publish project
+      run: dotnet publish -c Release -o ./publish
+
+    # Step 9: Run SonarQube analysis
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@v2
+      with: 
+        args: >
+          - Dsonar.projectkey=WebAPIDemo_withSonarQube
+          -Dsonar.host.url=${{http://localhost:9000}}
+          -Dsonar.login=${{sqp_128d7fd78218f9d66ecdbf6a737afb28cea4dd26}}
+
+    # Step 10: SonarQube quality gate check
+    - name: SonarQube Quality Gate
+      id: qualitygate
+      uses: sonarsource/sonarqube-quality-gate-action@v1
+      with:
+        sonar_host_url: ${{http://localhost:9000}}
+        sonar_token: ${{sqp_128d7fd78218f9d66ecdbf6a737afb28cea4dd26}}
+
+    # Step 11: Conditional Deployment (only if Quality Gate passes)
+    #- name: Deploy to Azure Web App
+    #  if: steps.qualitygate.outputs.status == 'PASSED'
+    #  uses: azure/webapps-deploy@v2
+    #  with:
+    #    app-name: "my-aspnetcore-api"   # Replace with your Azure Web App name
+    #    publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+    #    package: ./publish
+
+    # Step 12: Fail pipeline if Quality Gate fails
+    #- name: Stop deployment if Quality Gate failed
+    #  if: steps.qualitygate.outputs.status != 'PASSED'
+    #  run: |
+    #    echo "❌ SonarQube Quality Gate failed. Stopping deployment."
+    #   exit 1
