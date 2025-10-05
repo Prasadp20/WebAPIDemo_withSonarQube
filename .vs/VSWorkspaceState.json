@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\.github",
+    "\\.github\\workflows",
     "\\SonarQubedemo"
   ],
-  "SelectedNode": "\\SonarQubedemo\\WeatherForecast.cs",
+  "SelectedNode": "\\.github\\workflows\\dotnet-ci.yml",
   "PreviewInSolutionExplorer": false
 }
